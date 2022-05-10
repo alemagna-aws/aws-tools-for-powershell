@@ -18,6 +18,8 @@ phases:
       - aws configure set aws_access_key_id $role.Credentials.AccessKeyId --profile test-runner
       - aws configure set aws_secret_access_key $role.Credentials.SecretAccessKey --profile test-runner
       - aws configure set aws_session_token $role.Credentials.SessionToken --profile test-runner
+      - echo '{ "sdk": { "version": "3.1.418" } }' | Out-File global.json
+      - dotnet --version
   build:
     commands:
       - pwsh -Command {$ErrorActionPreference="Stop"; $ProgressPreference="SilentlyContinue"; $PSVersionTable; msbuild buildtools\build.proj /t:full-build /p:RunTests=true}
