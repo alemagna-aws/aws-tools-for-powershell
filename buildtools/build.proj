@@ -96,7 +96,7 @@
         <Message Text="Building AWS PowerShell generator"/>
         <!-- Parallel restore randomly fails package certificate trust https://github.com/NuGet/Home/issues/10322 -->
         <Exec Command="dotnet restore --disable-parallel ../solutions/AWSPowerShellGenerator.sln"/>
-        <Exec Command="dotnet build -c $(Configuration) --force --no-incremental --no-restore ../solutions/AWSPowerShellGenerator.sln"/>
+        <Exec Command="dotnet build -c $(Configuration) --force --no-incremental --no-restore -nowarn:CS0618 ../solutions/AWSPowerShellGenerator.sln"/>
     </Target>
 
     <Target Name="create-cmdlets" DependsOnTargets="build-generator">
@@ -111,13 +111,13 @@
     <Target Name="build-desktop-module" DependsOnTargets="create-cmdlets;build-netcore-module">
         <Message Text="Building AWSPowerShell desktop module edition"/>
         <Exec Command="dotnet restore --disable-parallel ../solutions/AWSPowerShell.sln"/>
-        <Exec Command="dotnet build -c $(Configuration) -f net45 --force --no-incremental --no-restore ../solutions/AWSPowerShell.sln"/>
+        <Exec Command="dotnet build -c $(Configuration) -f net45 --force --no-incremental --no-restore -nowarn:CS0618 ../solutions/AWSPowerShell.sln"/>
     </Target>
 
     <Target Name="build-netcore-module" DependsOnTargets="create-cmdlets">
         <Message Text="Building AWSPowerShell netcore module edition"/>
         <Exec Command="dotnet restore --disable-parallel ../solutions/AWSPowerShell.sln"/>
-        <Exec Command="dotnet build -c $(Configuration) -f netstandard2.0  --force --no-incremental --no-restore ../solutions/AWSPowerShell.sln"/>
+        <Exec Command="dotnet build -c $(Configuration) -f netstandard2.0  --force --no-incremental --no-restore -nowarn:CS0618 ../solutions/AWSPowerShell.sln"/>
 
         <Message Text="Generating custom view formats ps1xml file"/>
         <Exec Command="dotnet $(GeneratorPath)/$(Generator) -sdk $(SDKAssembliesFolder) -rp $(RootPath) -t formats -e coreclr" />
@@ -126,7 +126,7 @@
     <Target Name="build-modular-modules" DependsOnTargets="create-cmdlets">
         <Message Text="Building AWSPowerShell modular edition"/>
         <Exec Command="dotnet restore --disable-parallel ../solutions/ModularAWSPowerShell.sln"/>
-        <Exec Command="dotnet build -c $(Configuration) -f netstandard2.0  --force --no-incremental --no-restore ../solutions/ModularAWSPowerShell.sln"/>
+        <Exec Command="dotnet build -c $(Configuration) -f netstandard2.0  --force --no-incremental --no-restore -nowarn:CS0618 ../solutions/ModularAWSPowerShell.sln"/>
     </Target>
 
     <Target Name="create-help" DependsOnTargets="create-pshelp;create-webhelp" />
